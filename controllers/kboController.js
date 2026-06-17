@@ -22,6 +22,8 @@ const getAllTeams = asyncHandler(async (req, res) => {
             "X-Naver-Client-Secret": process.env.NAVER_CLIENT_SECRET,
           },
         });
+
+        console.log(`📦 [${team.teamName}] 네이버 원본 데이터:`, response.data);
         
         return {
           _id: team._id,
