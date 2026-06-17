@@ -3,16 +3,14 @@
 const express = require("express");
 const router = express.Router();
 const { getAllTeams, createTeam, deleteTeam } = require("../controllers/kboController");
-const { checkLogin } = require("../middlewares/authMiddleware");
+const { checkLogin } = require("../middlewares/authMiddleware"); // 💡 추가
 
-// 메인 페이지 조회(GET) 및 새로운 팀 추가(POST)
+// 메인 페이지 조회(GET)와 구단 추가(POST) 모두 checkLogin 통과 필수!
 router.route("/")
-  .get(getAllTeams)
-  .post(checkLogin, createTeam);
+  .get(checkLogin, getAllTeams) // GET / 접속 시 로그인 검사
+  .post(checkLogin, createTeam); // POST / 등록 시 로그인 검사
 
-// 특정 팀 삭제(DELETE) - method-override 활용 예정
 router.route("/:id")
-  .delete(deleteTeam);
+  .delete(checkLogin, deleteTeam); // DELETE 시 로그인 검사
 
 module.exports = router;
-
