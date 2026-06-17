@@ -7,6 +7,16 @@
 </head>
 <body class="bg-light">
   <div class="container py-5" style="max-width: 800px;">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+      <div>
+        <span>👤 현재 접속자: <strong class="text-dark"><%= user && user.username ? user.username : '게스트' %></strong> 님 반갑습니다!</span>
+      </div>
+      <div>
+        <a href="/logout" class="btn btn-outline-danger btn-sm">로그아웃</a>
+      </div>
+    </div>
+
     <h1 class="text-center mb-4">⚾ KBO 나만의 야구 네비게이터</h1>
     
     <div class="card mb-5 shadow-sm">
@@ -14,22 +24,30 @@
         <h5 class="card-title mb-3">🔥 관심 구단 등록하기</h5>
         <form action="/?_method=POST" method="POST">
           <div class="mb-3">
-            <label class="form-label">구단 선택 또는 입력</label>
-            <input type="text" name="teamName" class="form-control" placeholder="예: LG 트윈스, KIA 타이거즈, 한화 이글스" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">나의 응원 한마디</label>
-            <input type="text" name="cheerMessage" class="form-control" placeholder="예: 올해도 가을야구 우승 가자!" required>
+            <label class="form-label">KBO 구단 선택</label>
+            <select name="teamName" class="form-select" required>
+              <option value="" disabled selected>구단을 선택하세요</option>
+              <option value="KIA 타이거즈">KIA 타이거즈</option>
+              <option value="삼성 라이온즈">삼성 라이온즈</option>
+              <option value="LG 트윈스">LG 트윈스</option>
+              <option value="두산 베어스">두산 베어스</option>
+              <option value="KT 위즈">KT 위즈</option>
+              <option value="SSG 랜더스">SSG 랜더스</option>
+              <option value="롯데 자이언츠">롯데 자이언츠</option>
+              <option value="한화 이글스">한화 이글스</option>
+              <option value="NC 다이노스">NC 다이노스</option>
+              <option value="키움 히어로즈">키움 히어로즈</option>
+            </select>
           </div>
           <button type="submit" class="btn btn-primary w-100">등록하기</button>
         </form>
       </div>
     </div>
 
-    <h3 class="mb-3">📌 나의 관심 구장 & 실시간 네이버 뉴스</h3>
+    <h3 class="mb-3">📌 나의 관심 구단 & 실시간 네이버 뉴스</h3>
     
     <% if (teams.length === 0) { %>
-      <p class="text-muted text-center py-4">등록된 구단이 없습니다. 위에서 관심 구단을 등록해 보세요!</p>
+      <p class="text-muted text-center py-4">등록된 구단이 없습니다. 위에서 구단을 선택해 등록해 보세요!</p>
     <% } %>
 
     <% teams.forEach(function(team) { %>
@@ -41,9 +59,6 @@
           </form>
         </div>
         <div class="card-body">
-          <p class="card-text"><strong>📣 응원 메시지:</strong> "<%= team.cheerMessage %>"</p>
-          
-          <hr>
           <h6 class="text-secondary mb-2">📰 관련 실시간 네이버 뉴스</h6>
           <ul class="list-group list-group-flush">
             <% if (team.news && team.news.length > 0) { %>
